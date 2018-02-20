@@ -3,26 +3,26 @@
  * @returns number of love triangles
  */
 module.exports = function getLoveTrianglesCount(preferences = []) {
+  let siphs = []; // чуваки по порядку
   let arr = []; // те, кого любят исходные
-  let arr2 = []; // те, кого любят те, кого любят исходные
   let triangles = []; // все треугольники
+
+  for (let i = 1; i <= preferences.length; i++) {
+    siphs.push(i);
+  }
 
   for (let i = 0; i < preferences.length; i++) {
     arr.push(preferences[preferences[i]-1]);
   }
 
   for (let i = 0; i < preferences.length; i++) {
-    arr2.push(preferences[arr[i]-1]);
-  }
-
-  for (let i = 0; i < preferences.length; i++) {
-    if (preferences[i] != arr[i] && arr[i] != arr2[i]) {
-      triangles.push([preferences[i], arr[i], arr2[i]].sort(compare).join());
+    if (preferences[i] != arr[i] && arr[i] != siphs[i]) {
+      triangles.push([siphs[i], preferences[i], arr[i]].sort(compare).join());
     }
   }
 
   let love = {}; // совпадения
-  let k = 0; //счетчик
+  let k = 0; // счетчик
   for (let i = 0; i < triangles.length; i++) {
     love[triangles[i]] = 0;
     for (let j = 0; j < triangles.length; j++) {
